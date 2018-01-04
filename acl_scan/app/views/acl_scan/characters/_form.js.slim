@@ -1,0 +1,9 @@
+.ui.segment
+  = simple_form_for [@character], remote: true, class: [:ui, :form] do |f|
+    h3.ui.dividing.header
+      | #{@character.name || '新角色'}
+    = f.input :name
+    = f.hidden_field :corporation_id, value: current_corporation.id, disabled: !@character.new_record?, required: true
+    - unless @character.new_record?
+      = f.association :ability_groups, as: :select, collection: @character.corporation.ability_groups, include_blank: false
+    = f.submit '提交', class: 'ui primary button'

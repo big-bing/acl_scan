@@ -1,0 +1,22 @@
+= content_for :js
+  javascript:
+    $(document).ready( function() {
+      $('.ui.search')
+        .search({
+          apiSettings: {
+            url: '/characters.json?q={query}'
+          },
+          fields: {
+            results : 'items',
+            title   : 'name',
+            description : 'corporation_name'
+          },
+          onSelect: function(result, response) {
+            window.location.href = location.pathname + "?id=" + result.id;
+          }
+        });
+
+        $(function(){
+          commonDropdownFilter('.ui.dropdown.filter', ['corporation_id'])
+        })
+    });

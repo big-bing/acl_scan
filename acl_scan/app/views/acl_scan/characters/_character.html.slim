@@ -1,0 +1,19 @@
+tr
+  td
+    = character.id
+  td
+    = character.name
+  td
+    - if character.corporation_id
+      = character.corporation.try('name')
+  td
+    - sum = 80
+    - character.ability_groups.each do |a_group|
+      - if sum - a_group.name.to_s.chars.map{|char| char.bytesize == 3 ? 2 : 1}.sum < 0
+        - sum = 80
+        p
+      - sum -= (a_group.name.to_s.chars.map{|char| char.bytesize == 3 ? 2 : 1}.sum + 5)
+      a.ui.button.teal.tiny #{a_group.name}
+  td
+    - if authorize_acl('edit')
+      = link_to '编辑', edit_character_path(character), class: 'ui label blue', remote: true

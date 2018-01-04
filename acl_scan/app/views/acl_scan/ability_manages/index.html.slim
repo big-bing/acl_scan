@@ -1,0 +1,27 @@
+.ui.top.attached.segment
+  .ui.grid.equal.width
+    .row
+      .left.floated.column
+        .ui.search
+          .ui.icon.input style="width:300px"
+            input.prompt placeholder="名称"
+            i.search.icon
+          .results
+      .column.right.aligned.floated
+        - if authorize_acl('new')
+          = link_to '新增', new_ability_manage_path(corporation_id: @corporation.try('id'), format: 'modal'), class: 'ui button primary', remote: true
+
+  table class="ui table striped table-line tiny"
+    thead
+      tr
+        th ID
+        th 权限组名称
+        th 企业名称
+        th 权限
+        th 操作
+    tbody
+      = render 'ability_group'
+
+  = page @ability_groups
+
+= render 'index_js'

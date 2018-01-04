@@ -1,0 +1,36 @@
+= content_for :js
+  javascript:
+    $(document).ready( function() {
+      $('.ui.search')
+        .search({
+          apiSettings: {
+            url: '/ability_manages.json?q={query}'
+          },
+          fields: {
+            results : 'items',
+            title   : 'name',
+            description : ''
+          },
+          onSelect: function(result, response) {
+            window.location.href = location.pathname + "?id=" + result.id;
+          }
+        });
+
+      $('.ui.checkbox').checkbox();
+      $(document).on('click','._select_all',function(){
+        if($(this).html() == '全选'){
+          $(this).closest('tr').find('input[type="checkbox"]').prop('checked',true);
+          $(this).html('取消');
+          $(this).removeClass('teal').addClass('orange');
+        }else{
+          $(this).closest('tr').find('input[type="checkbox"]').prop('checked',false);
+          $(this).html('全选');
+          $(this).removeClass('orange').addClass('teal');
+        }
+      })
+
+      $(function(){
+        commonDropdownFilter(".ui.dropdown.filter", ['corporation_id']);
+      });
+
+    });

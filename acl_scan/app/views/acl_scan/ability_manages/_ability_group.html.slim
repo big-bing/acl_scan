@@ -1,0 +1,24 @@
+- @ability_groups.each do |ability_group|
+  tr
+    td
+      = ability_group.id
+    td
+      = ability_group.name
+    td
+      = ability_group.corporation.try('name')
+    td
+      table.ui.table
+        - ability_group.abilities.group_by(&:module_name).each do |key, val|
+          tr
+            td #{ key }
+            td
+              table class="ui very basic celled table"
+                - val.group_by(&:node_name).each do |node, acls|
+                  tr
+                    td width = '120' #{ node }
+                    td
+                      - acls.group_by(&:name).each do |name, acl|
+                        a.ui.button.teal.tiny #{name}
+    td
+      - if authorize_acl('edit')
+        = link_to '编辑', edit_ability_manage_path(ability_group, format: 'modal'), class: 'ui label blue', remote: true

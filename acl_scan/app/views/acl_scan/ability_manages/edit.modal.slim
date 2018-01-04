@@ -1,0 +1,36 @@
+.ui.segment
+  = simple_form_for [:admin, @ability_group], url: ability_manage_path, remote: true do |f|
+    h3.ui.dividing.header
+      | #{@ability_group.name}
+    .two.fields
+      .field
+        = f.input :name, required: true
+      .field
+        = f.input :corporation_id, collection: @corporations, disabled: true, required: true
+    = f.input :desc
+    table.ui.table.compact.celled
+      tbody
+        - @abilities.each do |key, val|
+            tr
+              td #{key}
+              td
+                table class="ui very basic celled table"
+                  - val.group_by(&:node_name).each do |node,acls|
+                    tr
+                      td width='120' #{node}
+                      td width='80'
+                        - if (acls.map(&:id) - @ability_group.ability_ids).empty?
+                          a href="javascript:;" class="_select_all ui button mini orange" 取消
+                        - else
+                          a href="javascript:;" class="_select_all ui button mini teal" 全选
+                      td
+                        = f.collection_check_boxes :ability_ids, acls, :id, :name, include_hidden: false, item_wrapper_class: 'checkbox_container'
+    
+    = f.submit '提交', class: 'ui primary button'
+
+css:
+  .checkbox_container {
+    display: inline-block;
+    vertical-align: -1px;
+    margin: 5px;
+  }

@@ -1,0 +1,17 @@
+|
+  $('.ui.sidebar').
+  addClass("very wide right vertical menu").
+  sidebar({
+    onHidden: function(){
+    }
+  }).
+  sidebar('toggle')
+  .html("#{j render('form')}");
+
+  $('select').
+    addClass('ui dropdown selection search').
+    dropdown(
+      {
+        fullTextSearch: true
+      }
+    )
